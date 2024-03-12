@@ -1,20 +1,6 @@
 # Momence Tech Task
 
-webpage with deployed version
-
-## How to run
-
-To run it locally, you need to install dependencies first:
-
-```bash
-npm i
-```
-
-Run locally
-
-```bash
-npm run dev
-```
+Web page with deployed version ...
 
 ## Requirements
 
@@ -38,5 +24,3 @@ Documentation: https://www.cnb.cz/en/faq/Format-of-the-foreign-exchange-market-r
 7. Tech stack: React (+ Hooks), TypeScript, Styled Components, React Query.
 
 Overall: Keep the code simple and the UI nice and easy to use for the user.
-
-ORIGINAL

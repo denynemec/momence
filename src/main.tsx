@@ -1,10 +1,16 @@
-import React from "react";
-import ReactDOM from "react-dom/client";
-import App from "./App.tsx";
-import "./index.css";
+import React from 'react';
+import ReactDOM from 'react-dom/client';
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
+import { App } from './App.tsx';
+import GlobalStyles from './GlobalStyles.tsx';
+import { QueryClientContextProvider } from './contexts';
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
+    <QueryClientContextProvider>
+      <GlobalStyles />
+
+      <App />
+    </QueryClientContextProvider>
   </React.StrictMode>,
 );
