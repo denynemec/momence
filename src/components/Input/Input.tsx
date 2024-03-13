@@ -5,8 +5,8 @@ import * as Styles from './Input.styles';
 type Props = {
   label: string;
   inputName: string;
-  onChange: (_: number) => void;
-  value: number;
+  onChange: (_: string) => void;
+  value: string;
   minValue?: number;
 };
 
@@ -18,14 +18,21 @@ export const Input = ({
   minValue,
 }: Props) => {
   const onInput = (event: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(Number(event.target.value));
+    const newValue = event.target.value;
+
+    const parsedNumber = Number(newValue);
+
+    if (isNaN(parsedNumber)) {
+      return;
+    }
+
+    onChange(newValue);
   };
 
   return (
     <Styles.Wrapper>
       <Label label={label} inputName={inputName} />
       <input
-        type="number"
         id={inputName}
         name={inputName}
         onInput={onInput}

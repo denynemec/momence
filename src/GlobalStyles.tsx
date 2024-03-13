@@ -5,12 +5,6 @@ const GlobalStyles = createGlobalStyle`
 		padding: 0;  
 		margin: 0;
         font-family: Montserrat;
-	}
-
-	input[type="number"]::-webkit-outer-spin-button,
-	input[type="number"]::-webkit-inner-spin-button {
-    	-webkit-appearance: none;
-    	margin: 0;
 	}	
 `;
 

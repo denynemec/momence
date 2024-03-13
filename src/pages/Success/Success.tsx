@@ -8,7 +8,7 @@ import { convert, toOptions } from '../../utils';
 import * as Styles from './Success.styles';
 
 export const Success = () => {
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState('');
   const [selectedCurrency, setSelectedCurrency] = useState<string>('');
   const [convertedValue, setConvertedValue] = useState<number | null>(null);
   const { date, exchangeRates } = useExchangeRates();
@@ -22,7 +22,7 @@ export const Success = () => {
     setConvertedValue(null);
   };
 
-  const onValueChange = (newValue: number) => {
+  const onValueChange = (newValue: string) => {
     setValue(newValue);
     clearConvertedValue();
   };
@@ -35,7 +35,10 @@ export const Success = () => {
   const onSubmit = (event: React.SyntheticEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const convertedValue = convert(value, exchangeRates.get(selectedCurrency));
+    const convertedValue = convert(
+      Number(value),
+      exchangeRates.get(selectedCurrency),
+    );
 
     setConvertedValue(convertedValue);
   };
@@ -50,6 +53,8 @@ export const Success = () => {
   if (exchangeRates.size === 0) {
     return view(<p>No exchange rates available</p>);
   }
+
+  const isSubmitDisabled = value === '' || isNaN(Number(value));
 
   const form = (
     <Styles.Form onSubmit={onSubmit}>
@@ -72,10 +77,10 @@ export const Success = () => {
       </Styles.FormElementWrapper>
 
       <Styles.FormElementWrapper>
-        <Button type="submit" label="Convert" />
+        <Button type="submit" label="Convert" disabled={isSubmitDisabled} />
       </Styles.FormElementWrapper>
 
-      {convertedValue && (
+      {convertedValue !== null && (
         <p>
           {value} CZK is approx {convertedValue.toFixed(3)} {selectedCurrency}.
         </p>
