@@ -22,7 +22,7 @@ export const Input = ({
 
     const parsedNumber = Number(newValue);
 
-    if (isNaN(parsedNumber)) {
+    if (isNaN(parsedNumber) || parsedNumber < 0) {
       return;
     }
 

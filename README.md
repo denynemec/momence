@@ -1,6 +1,6 @@
 # Momence Tech Task
 
-Web page with deployed version ...
+Live version id deployed through [Vercel](https://momence-denynemec.vercel.app/).
 
 ## Requirements
 
@@ -19,8 +19,33 @@ Documentation: https://www.cnb.cz/en/faq/Format-of-the-foreign-exchange-market-r
 4. Commit your code throughout your work and upload the resulting codebase into a Github repo.
 
 5. Deploy the app so it can be viewed online (it doesn’t matter where - e.q. Vercel, Netflify, etc.).
+
 6. Add automated tests which might be appropriate to ensure that your solution is working correctly.
 
 7. Tech stack: React (+ Hooks), TypeScript, Styled Components, React Query.
 
 Overall: Keep the code simple and the UI nice and easy to use for the user.
+
+## How to run locally
+
+Use Node v18, install dependencies and run dev mode:
+
+```bash
+nvm use
+npm install
+npm run dev
+```
+
+To run tests (pre-commit running also), use:
+
+```bash
+npm run test
+```
+
+Run format, ESlint and TS check with:
+
+```bash
+npm run lint
+```
+
+Vercel deploy will be triggered on push to `main` branch automatically.
