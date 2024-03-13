@@ -17,13 +17,3 @@ export const emptyExchangeRatesWithDate = (): ExchangeRatesWithDate => ({
   date: new Date(),
   exchangeRates: new Map(),
 });
-
-export const withDefaultValues = (
-  exchangeRatesWithDate?: ExchangeRatesWithDate,
-): ExchangeRatesWithDate => {
-  if (typeof exchangeRatesWithDate === 'undefined') {
-    return emptyExchangeRatesWithDate();
-  }
-
-  return exchangeRatesWithDate;
-};

@@ -6,14 +6,14 @@ import {
   emptyExchangeRatesWithDate,
 } from '../types';
 
-const parseValueWithDefault = ({
+export const parseValueWithDefault = ({
   key,
   value,
 }: {
   key: string;
   value: string;
 }) => {
-  if (key in ['amount', 'rate']) {
+  if (['amount', 'rate'].includes(key)) {
     const parsedNumber = Number(value);
 
     if (isNaN(parsedNumber)) {
@@ -33,30 +33,23 @@ export const parseExchangeRates = (
     return emptyExchangeRatesWithDate();
   }
 
-  const [date, legend, ...lines] = exchangeRatesString.split('\n');
+  const [dateLine, keysLine, ...lines] = exchangeRatesString.split('\n');
 
-  const dateString = date.split('#')[0];
+  const dateString = dateLine.split('#')[0];
 
-  const keys = legend.split('|').map((key) => key.toLocaleLowerCase());
+  const keys = keysLine.split('|').map((key) => key.toLocaleLowerCase());
 
-  const exchangeRates = new Map();
+  const parseExchangeRateLine_ = parseExchangeRateLine(keys);
 
-  lines.forEach((line: string) => {
-    const values = line.split('|');
+  const exchangeRates = lines.reduce((acc, current) => {
+    const exchangeRate = parseExchangeRateLine_(current);
 
-    if (values.length !== 5) {
-      return;
+    if (exchangeRate === null) {
+      return acc;
     }
 
-    const entries = keys.map((key, index) => [
-      key,
-      parseValueWithDefault({ key, value: values[index] }),
-    ]);
-
-    const exchangeRate = Object.fromEntries(entries);
-
-    exchangeRates.set(getExchangeRateKey(exchangeRate), exchangeRate);
-  });
+    return acc.set(getExchangeRateKey(exchangeRate), exchangeRate);
+  }, new Map<string, ExchangeRate>());
 
   return {
     date: new Date(dateString),
@@ -64,7 +57,28 @@ export const parseExchangeRates = (
   };
 };
 
-const getExchangeRateKey = ({ country, currency, code }: ExchangeRate) => {
+export const parseExchangeRateLine =
+  (keys: string[]) =>
+  (line: string): ExchangeRate | null => {
+    const values = line.split('|');
+
+    if (values.length !== 5) {
+      return null;
+    }
+
+    const entries = keys.map((key, index) => [
+      key,
+      parseValueWithDefault({ key, value: values[index] }),
+    ]);
+
+    return Object.fromEntries(entries);
+  };
+
+export const getExchangeRateKey = ({
+  country,
+  currency,
+  code,
+}: ExchangeRate) => {
   return [country, currency, code].join('-');
 };
 
@@ -85,4 +99,12 @@ export const convert = (czkAmount: number, exchangeRate?: ExchangeRate) => {
   return czkAmount / amount / rate;
 };
 
-// TODO tests
+export const withDefaultValues = (
+  exchangeRatesWithDate?: ExchangeRatesWithDate,
+): ExchangeRatesWithDate => {
+  if (typeof exchangeRatesWithDate === 'undefined') {
+    return emptyExchangeRatesWithDate();
+  }
+
+  return exchangeRatesWithDate;
+};

@@ -2,8 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 
 import { ExchangeRatesContextProvider } from './contexts';
 import { Error, Loading, Success } from './pages';
-import { parseExchangeRates } from './utils';
-import { withDefaultValues } from './types';
+import { parseExchangeRates, withDefaultValues } from './utils';
 
 const EXCHANGE_RATES_URL =
   'https://www.cnb.cz/en/financial-markets/foreign-exchange-market/central-bank-exchange-rate-fixing/central-bank-exchange-rate-fixing/daily.txt';
