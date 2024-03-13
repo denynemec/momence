@@ -48,7 +48,7 @@ export const parseExchangeRates = (
       return acc;
     }
 
-    return acc.set(getExchangeRateKey(exchangeRate), exchangeRate);
+    return acc.set(exchangeRate.code, exchangeRate);
   }, new Map<string, ExchangeRate>());
 
   return {
@@ -73,14 +73,6 @@ export const parseExchangeRateLine =
 
     return Object.fromEntries(entries);
   };
-
-export const getExchangeRateKey = ({
-  country,
-  currency,
-  code,
-}: ExchangeRate) => {
-  return [country, currency, code].join('-');
-};
 
 export const toOptions = (exchangeRates: ExchangeRates): Options => {
   return [...exchangeRates].map(([key, { country, currency, code }]) => ({

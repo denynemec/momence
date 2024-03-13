@@ -3,7 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { Button, Input, Select } from '../../components';
 import { useExchangeRates } from '../../contexts';
 import { Container } from '../../templates';
-import { convert, toOptions } from '../../utils';
+import { convert, format, toOptions } from '../../utils';
 
 import * as Styles from './Success.styles';
 
@@ -81,9 +81,7 @@ export const Success = () => {
       </Styles.FormElementWrapper>
 
       {convertedValue !== null && (
-        <p>
-          {value} CZK is approx {convertedValue.toFixed(3)} {selectedCurrency}.
-        </p>
+        <p>{`${format({ value })} is approx ${format({ value: convertedValue, currency: selectedCurrency })}`}</p>
       )}
     </Styles.Form>
   );

@@ -3,7 +3,6 @@ import {
   parseExchangeRateLine,
   parseExchangeRates,
   parseValueWithDefault,
-  getExchangeRateKey,
 } from './exchangeRates';
 import { ExchangeRatesWithDate, ExchangeRate } from '../types';
 
@@ -97,10 +96,7 @@ describe('parseExchangeRates', () => {
   };
 
   const exchangeRatesMap = new Map();
-  exchangeRatesMap.set(
-    getExchangeRateKey(australiaExchangeRate),
-    australiaExchangeRate,
-  );
+  exchangeRatesMap.set(australiaExchangeRate.code, australiaExchangeRate);
 
   const exchangeRatesResult: ExchangeRatesWithDate = {
     date: new Date(dateString),
