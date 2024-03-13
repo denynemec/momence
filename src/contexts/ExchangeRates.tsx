@@ -18,7 +18,7 @@ export const useExchangeRates = () => {
 
 type Props = { children: React.ReactNode; data: ExchangeRatesWithDate };
 
-export const ExchangeRatesContextProvider = ({ children, data }: Props) => {
+export const ExchangeRatesProvider = ({ children, data }: Props) => {
   return (
     <ExchangeRatesContext.Provider value={data}>
       {children}

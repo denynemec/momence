@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 
-import { ExchangeRatesContextProvider } from './contexts';
+import { ExchangeRatesProvider } from './contexts';
 import { Error, Loading, Success } from './pages';
 import { parseExchangeRates, withDefaultValues } from './utils';
 
@@ -39,8 +39,8 @@ export const App = () => {
   }
 
   return (
-    <ExchangeRatesContextProvider data={withDefaultValues(data)}>
+    <ExchangeRatesProvider data={withDefaultValues(data)}>
       <Success />
-    </ExchangeRatesContextProvider>
+    </ExchangeRatesProvider>
   );
 };
