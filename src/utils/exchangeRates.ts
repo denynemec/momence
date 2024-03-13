@@ -6,6 +6,26 @@ import {
   emptyExchangeRatesWithDate,
 } from '../types';
 
+const parseValueWithDefault = ({
+  key,
+  value,
+}: {
+  key: string;
+  value: string;
+}) => {
+  if (key in ['amount', 'rate']) {
+    const parsedNumber = Number(value);
+
+    if (isNaN(parsedNumber)) {
+      return 1;
+    }
+
+    return parsedNumber;
+  }
+
+  return value;
+};
+
 export const parseExchangeRates = (
   exchangeRatesString?: string,
 ): ExchangeRatesWithDate => {
@@ -13,23 +33,27 @@ export const parseExchangeRates = (
     return emptyExchangeRatesWithDate();
   }
 
-  const [first, , ...lines] = exchangeRatesString.split('\n');
+  const [date, legend, ...lines] = exchangeRatesString.split('\n');
 
-  const dateString = first.split('#')[0];
+  const dateString = date.split('#')[0];
+
+  const keys = legend.split('|').map((key) => key.toLocaleLowerCase());
 
   const exchangeRates = new Map();
 
   lines.forEach((line: string) => {
-    // TODO dynamic format (take second line for it)
-    const [country, currency, amount, code, rate] = line.split('|');
+    const values = line.split('|');
 
-    const exchangeRate = {
-      country,
-      currency,
-      amount: Number(amount), // TODO check if can be parsed
-      code,
-      rate: Number(rate), // TODO check if can be parsed
-    };
+    if (values.length !== 5) {
+      return;
+    }
+
+    const entries = keys.map((key, index) => [
+      key,
+      parseValueWithDefault({ key, value: values[index] }),
+    ]);
+
+    const exchangeRate = Object.fromEntries(entries);
 
     exchangeRates.set(getExchangeRateKey(exchangeRate), exchangeRate);
   });
@@ -60,3 +84,5 @@ export const convert = (czkAmount: number, exchangeRate?: ExchangeRate) => {
 
   return czkAmount / amount / rate;
 };
+
+// TODO tests

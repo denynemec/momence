@@ -1,5 +1,3 @@
-import { Options } from './options';
-
 export type ExchangeRate = {
   country: string;
   currency: string;

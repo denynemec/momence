@@ -5,8 +5,8 @@
   "author": "deny",
   "private": true,
   "engines": {
-    "node": "^20",
-    "npm": ">=10 <=11"
+    "node": "^18",
+    "npm": ">=9 <=10"
   },
   "main": "main.tsx",
   "scripts": {
